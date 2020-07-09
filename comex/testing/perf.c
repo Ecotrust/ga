@@ -4,7 +4,7 @@
 #include <string.h>
 #include <sys/time.h>
 
-#include <mpi.h>
+#include <mpich/mpi.h>
 
 #include "comex.h"
 
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 
     /* This test only works for two processes */
 
-    assert(nproc == 2);
+    assert(nproc >= 2);
 
     if (0 == me) {
         printf("msg size (bytes)     avg time (us)    avg b/w (MB/sec)\n");
@@ -54,12 +54,12 @@ int main(int argc, char **argv)
         printf("#PNNL comex Get Test\n");
     }
     contig_test(MAX_MESSAGE_SIZE, GET);
-   
+
     if (0 == me) {
         printf("#PNNL comex Accumulate Test\n");
     }
     contig_test(MAX_MESSAGE_SIZE, ACC);
-    
+
     comex_finalize();
     MPI_Finalize();
 
@@ -122,7 +122,7 @@ static void contig_test(size_t buffer_size, int op)
                                 dst, COMEX_GROUP_WORLD);
                         break;
                     case ACC:
-                        comex_acc(COMEX_ACC_DBL, &scale, 
+                        comex_acc(COMEX_ACC_DBL, &scale,
                                 put_buf[me], dst_ptr[dst], msg_size,
                                 dst, COMEX_GROUP_WORLD);
                         break;

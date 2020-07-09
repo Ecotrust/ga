@@ -2,7 +2,7 @@
 #ifndef _COMEX_H
 #define _COMEX_H
 
-#include <mpi.h>
+#include <mpich/mpi.h>
 
 #include <stdlib.h>
 
@@ -142,9 +142,9 @@ extern int comex_group_comm(comex_group_t group, MPI_Comm *comm);
  * Translates the ranks of processes in one group to those in another group.
  *
  * @param[in] n the number of ranks in the ranks_from and ranks_to arrays
- * @param[in] group_from the group to translate ranks from 
+ * @param[in] group_from the group to translate ranks from
  * @param[in] ranks_from array of zer or more valid ranks in group_from
- * @param[in] group_to the group to translate ranks to 
+ * @param[in] group_to the group to translate ranks to
  * @param[out] ranks_to array of corresponding ranks in group_to
  * @return COMEX_SUCCESS on sucess
  */

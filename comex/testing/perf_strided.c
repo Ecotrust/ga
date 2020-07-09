@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 
     /* This test only works for two processes */
 
-    assert(nproc == 2);
+    assert(nproc >= 2);
 
     if (0 == me) {
         printf("msg size (bytes)     avg time (us)    avg b/w (MB/sec)\n");
@@ -57,13 +57,13 @@ int main(int argc, char **argv)
         printf("#PNNL ComEx Get Strided Test\n");
     }
     strided_test(MAX_MESSAGE_SIZE, GETS);
-   
+
     if (0 == me) {
         printf("\n\n");
         printf("#PNNL ComEx Accumulate Strided Test\n");
     }
     strided_test(MAX_MESSAGE_SIZE, ACCS);
-    
+
     comex_finalize();
     MPI_Finalize();
 
@@ -137,15 +137,15 @@ static void strided_test(size_t buffer_size, int op)
 
                     switch (op) {
                         case PUTS:
-                            comex_puts(put_buf[me], stride, dst_ptr[dst], stride, 
+                            comex_puts(put_buf[me], stride, dst_ptr[dst], stride,
                                     count, levels, dst, COMEX_GROUP_WORLD);
                             break;
                         case GETS:
-                            comex_gets(dst_ptr[dst], stride, get_buf[me], stride, 
+                            comex_gets(dst_ptr[dst], stride, get_buf[me], stride,
                                     count, levels, dst, COMEX_GROUP_WORLD);
                             break;
                         case ACCS:
-                            comex_accs(COMEX_ACC_DBL, (void *)&scale, 
+                            comex_accs(COMEX_ACC_DBL, (void *)&scale,
                                     put_buf[me], stride, dst_ptr[dst], stride,
                                     count, levels, dst, COMEX_GROUP_WORLD);
                             break;

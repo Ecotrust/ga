@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 
     /* This test only works for two processes */
 
-    assert(nproc == 2);
+    assert(nproc >= 2);
 
     if (0 == me) {
         printf("msg size (bytes)     avg time (us)    avg b/w (MB/sec)\n");
@@ -57,15 +57,15 @@ int main(int argc, char **argv)
         printf("#PNNL armci Get Test\n");
     }
     contig_test(MAX_MESSAGE_SIZE, GET);
-   
-   
+
+
     if (0 == me) {
         printf("#PNNL armci Accumulate Test\n");
     }
     contig_test(MAX_MESSAGE_SIZE, ACC);
     printf("\n\n");
-    
-    
+
+
     comex_finalize();
     MPI_Finalize();
 
@@ -126,7 +126,7 @@ static void contig_test(size_t buffer_size, int op)
                         comex_get(dst_ptr[dst], get_buf[me], msg_size, dst, COMEX_GROUP_WORLD);
                         break;
                     case ACC:
-                        comex_acc(COMEX_ACC_DBL, &scale, 
+                        comex_acc(COMEX_ACC_DBL, &scale,
                                 put_buf[me], dst_ptr[dst], msg_size, dst, COMEX_GROUP_WORLD);
                         break;
                     default:
